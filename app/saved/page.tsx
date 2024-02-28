@@ -1,9 +1,7 @@
-import React from 'react'
-import MainTemplate from '../components/templates/MainTemplate/MainTemplate'
-import axios from 'axios'
 import BlogList from '../components/organisms/BlogList/BlogList';
-import { useUserStore } from '../store/user';
 import Hero from '../components/organisms/Hero/Hero';
+import MainTemplate from '../components/templates/MainTemplate/MainTemplate';
+import { getSavedBlogs } from './action';
 
 const page = async () => {
 	const blogs = await getSavedBlogs();
@@ -18,14 +16,3 @@ const page = async () => {
 
 export default page
 
-export const getSavedBlogs = async () => {
-  const user = useUserStore.getState().user;
-  try {
-    const response = await axios.get(`http://localhost:3000/api/saved-blogs?id=${user?.userId}`);
-		const blogs = response.data.filteredBlogs;
-    return blogs;
-  } catch (error) {
-    console.error('Error fetching saved blogs:', error);
-    throw error;
-  }
-};
